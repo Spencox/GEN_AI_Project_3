@@ -14,8 +14,8 @@ class GovernanceGate:
     
     def __init__(self):
         # HINT: Initialize safety validator and compliance checker
-        self.safety_validator = ___() 
-        self.compliance_checker = ___() 
+        self.safety_validator = SafetyValidator() 
+        self.compliance_checker = ComplianceChecker() 
         self.audit_log = []
 
     def validate_input(self, text: str) -> Dict[str, Any]:
@@ -30,23 +30,23 @@ class GovernanceGate:
         5. Return result dict
         """
         # HINT: 1. Safety Check
-        safety_result = self.safety_validator.___(text)
+        safety_result = self.safety_validator.validate(text)
         
         # HINT: 2. Compliance Check (ensure no PII in query if strict)
-        compliance_result = self.compliance_checker.___(text, compliance_standards=["___"])
+        compliance_result = self.compliance_checker.check_compliance(text, compliance_standards=["GDPR"])
         
         # HINT: Combine results - passed only if both checks pass
-        passed = safety_result['___'] and compliance_result['___'] 
-        violations = safety_result['___'] + compliance_result['___'] 
+        passed = safety_result['is_safe'] and compliance_result['compliant'] 
+        violations = safety_result['flags'] + compliance_result['violations'] 
         
         result = {
-            'passed': ___, 
-            'violations': ___, 
-            'timestamp': datetime.datetime.now().___() 
+            'passed': passed, 
+            'violations': violations, 
+            'timestamp': datetime.datetime.now().isoformat() 
         }
         
         # HINT: Log audit entry
-        self.___("validate_input", result) 
+        self._log_audit("validate_input", result) 
         return result
 
     def validate_output(self, text: str) -> Dict[str, Any]:
@@ -56,24 +56,24 @@ class GovernanceGate:
         HINT: Similar to validate_input - run both safety and compliance checks
         """
         # HINT: Similar checks for output
-        safety_result = self.safety_validator.___(text) 
-        compliance_result = self.compliance_checker.___(text, compliance_standards=["___"]) 
+        safety_result = self.safety_validator.validate(text) 
+        compliance_result = self.compliance_checker.check_compliance(text, compliance_standards=["GDPR"]) 
         
-        passed = safety_result['___'] and compliance_result['___']  
-        violations = safety_result['___'] + compliance_result['___']  
+        passed = safety_result['is_safe'] and compliance_result['compliant']  
+        violations = safety_result['flags'] + compliance_result['violations']  
         
         result = {
-            'passed': ___,  
-            'violations': ___,  
-            'timestamp': datetime.datetime.now().___() 
+            'passed': passed,  
+            'violations': violations,  
+            'timestamp': datetime.datetime.now().isoformat() 
         }
         
-        self.___("validate_output", result) 
+        self._log_audit("validate_output", result) 
         return result
 
     def get_audit_log(self):
         """Return the audit log"""
-        return self.___ 
+        return self.audit_log 
 
     def _log_audit(self, action: str, result: Dict[str, Any]):
         """
@@ -82,9 +82,9 @@ class GovernanceGate:
         HINT: Create entry dict with action, result status, details, timestamp
         """
         entry = {
-            'action': ___,  
-            'result': ___ if result['passed'] else ___,  # HINT: "PASS", "FAIL"
-            'details': ___,  # HINT: result
-            'timestamp': datetime.datetime.now().___()
+            'action': action,  
+            'result': "PASS" if result['passed'] else "FAIL",  # HINT: "PASS", "FAIL"
+            'details': result,  # HINT: result
+            'timestamp': datetime.datetime.now().isoformat()
         }
-        self.audit_log.___(entry)  # HINT: append
+        self.audit_log.append(entry)  # HINT: append
