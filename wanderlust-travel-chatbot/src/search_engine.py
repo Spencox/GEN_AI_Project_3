@@ -76,7 +76,8 @@ class TravelSearchEngine:
             
             if not gov_check['passed']:  
                 # HINT: Log governance failure event
-                mlflow.log_event("GovernanceCheckFailed", {"violations": gov_check['violations']}) 
+                mlflow.log_param("governance_status", "blocked")
+                mlflow.log_param("violations", str(gov_check['violations'])) 
                 return [], "Query blocked by security checks."
 
             # HINT: Log parameters to MLflow
