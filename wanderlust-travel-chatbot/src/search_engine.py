@@ -37,7 +37,7 @@ class TravelSearchEngine:
             azure_endpoint=Config.AZURE_OPENAI_ENDPOINT,
             api_version=Config.AZURE_OPENAI_API_VERSION,
             deployment_name=Config.AZURE_OPENAI_DEPLOYMENT_NAME,
-            temperature=0.7
+            temperature=1
         )
 
         # HINT: Initialize Azure OpenAI Embeddings
@@ -123,15 +123,18 @@ class TravelSearchEngine:
             # HINT: Create prompt for LLM
             prompt = f"""
             You are a helpful travel assistant for Wanderlust Travels, an online travel agency.
-            Use the following information from our knowledge base to answer the customer's question.
+            Answer the customer's question using ONLY the information provided below.
+            Do not add any information that is not explicitly stated in the knowledge base.
+            If the answer is not found in the provided information, say so clearly.
 
             Knowledge Base Information:
             {context}
 
             Customer Question: "{user_query}"
 
-            Please provide a clear, helpful, and accurate answer based on the information above.
-            If the information is not sufficient, let the customer know and provide general guidance.
+            Answer the question directly and completely. Do not include unnecessary information.
+            Provide a clear, concise, and accurate answer based strictly on the information above.
+            Cite the source document when possible.
             """  # HINT: context, user_query
 
             # HINT: Generate response using LLM

@@ -82,7 +82,7 @@ def ingest_travel_documents():
         # Batch Ingestion
         # ====================
         print("\n📥 Indexing documents to Azure AI Search...")
-        batch_size = 50  # HINT: 50
+        batch_size = 100  # HINT: 50
         total_batches = (len(chunks) + batch_size - 1) // batch_size
 
         ingested_count = 0

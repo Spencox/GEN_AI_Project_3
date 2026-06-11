@@ -25,6 +25,7 @@ pytest-asyncio
 kaggle
 chromadb
 python-json-logger
+langchain-google-vertexai
 
 
 # langchain==0.1.0

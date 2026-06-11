@@ -40,7 +40,7 @@ class ContentSafety:
         flags = []
         
         # HINT: Check general unsafe patterns
-        for category, keywords in self.unsafe_patterns.___(): 
+        for category, keywords in self.unsafe_patterns.items(): 
             for keyword in keywords:
                 if keyword in text_lower:  
                     flags.append({

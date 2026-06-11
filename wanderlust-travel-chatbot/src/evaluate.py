@@ -18,7 +18,7 @@ from typing import List, Dict
 
 from ragas import evaluate
 from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
-from datasets import Dataset
+from datasets import Dataset, Features, Value, Sequence
 
 from src.search_engine import TravelSearchEngine
 from src.config import Config
@@ -150,7 +150,7 @@ class TravelChatbotEvaluator:
         
         # HINT: Extract questions and ground truths
         questions = [item["question"] for item in golden_data]
-        ground_truths = [[item["ground_truth"]] for item in golden_data]
+        ground_truths = [item["ground_truth"] for item in golden_data]
 
         # HINT: Generate answers and contexts
         logger.info("\nGenerating responses...")
@@ -165,7 +165,13 @@ class TravelChatbotEvaluator:
         }
 
         # HINT: Create HuggingFace Dataset
-        hf_dataset = Dataset.from_dict(dataset_dict)
+        features = Features({
+            "question": Value("string"),
+            "answer": Value("string"),
+            "contexts": Sequence(Value("string")),
+            "ground_truth": Value("string"),
+        })
+        hf_dataset = Dataset.from_dict(dataset_dict, features=features)
 
         logger.info("\nRunning Ragas metrics...")
         logger.info("Metrics: faithfulness, answer_relevancy, context_precision, context_recall")

@@ -122,16 +122,16 @@ st.divider()
 
 # HINT: Get query (from example or text input)
 if 'example_query' in st.session_state:
-    query_text = st.session_state.example_query
-    del st.session_state.example_query
-else:
-    query_text = st.text_input(
-        "Enter your travel question",
-        placeholder="e.g., 'What are the baggage rules for BLR to LON?'",  # HINT: "e.g., 'What are the baggage rules for BLR to LON?'"
-        label_visibility="collapsed"
-    )
+    st.session_state.query_input = st.session_state.pop('example_query')
 
-search_button = st.button("🔍 Search", use_container_width=True, type="primary")  # HINT: "🔍 Search"
+query_text = st.text_input(
+    "Enter your travel question",
+    key="query_input",
+    placeholder="e.g., 'What are the baggage rules for BLR to LON?'",  # HINT: "e.g., 'What are the baggage rules for BLR to LON?'"
+    label_visibility="collapsed"
+)
+
+search_button = st.button("🔍 Search", use_container_width=True, type="primary")
 
 # ====================
 # Search Logic
