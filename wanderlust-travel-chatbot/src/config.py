@@ -31,6 +31,7 @@ class Config:
     # Azure AI Search Configuration (Only vector store - no ChromaDB)
     # ====================
     # HINT: Load Azure AI Search credentials
+    VECTOR_STORE_TYPE = os.getenv("VECTOR_STORE_TYPE", "azure_search")
     AZURE_SEARCH_ENDPOINT = os.getenv("AZURE_SEARCH_ENDPOINT")
     AZURE_SEARCH_KEY = os.getenv("AZURE_SEARCH_KEY")
     AZURE_SEARCH_INDEX_NAME = os.getenv("AZURE_SEARCH_INDEX_NAME", "travel-kb-index")  # HINT: "AZURE_SEARCH_INDEX_NAME", "travel-kb-index"
